@@ -1,0 +1,246 @@
+:root {
+  --bg-color: #f0f2f5;
+  --app-bg: white;
+  --text-color: #222;
+  --border-color: #ddd;
+  --button-bg: #f0f0f0;
+  --button-text: #222;
+  --primary: #2196f3;
+  --danger: #f44336;
+  --success: #4caf50;
+}
+
+[data-theme="dark"] {
+  --bg-color: #181818;
+  --app-bg: #242424;
+  --text-color: #f5f5f5;
+  --border-color: #444;
+  --button-bg: #333;
+  --button-text: #f5f5f5;
+  --primary: #64b5f6;
+  --danger: #ef5350;
+  --success: #66bb6a;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* === Основной контейнер (шире) === */
+.app {
+  background: var(--app-bg);
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 600px; /* ✅ шире */
+  transition: background 0.3s;
+}
+
+h1 {
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* === Кнопка переключения темы === */
+.theme-toggle {
+  border: none;
+  background: var(--button-bg);
+  color: var(--button-text);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.theme-toggle:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* === Форма добавления задачи === */
+.todo-form {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+.todo-form input {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--app-bg);
+  color: var(--text-color);
+}
+.todo-form button {
+  padding: 8px 12px;
+  border: none;
+  background: var(--success);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* === Список задач === */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
+  display: flex;
+  flex-direction: column; /* ✅ кнопки под текстом */
+  gap: 8px;
+  background: var(--button-bg);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  transition: background 0.3s, color 0.3s;
+  word-wrap: break-word; /* ✅ перенос длинных текстов */
+  overflow-wrap: break-word;
+}
+
+/* === Содержимое задачи === */
+.todo-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.todo-content span {
+  flex: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.checkbox {
+  font-size: 18px;
+}
+
+/* === Метка времени === */
+.todo-item .timestamp {
+  font-size: 12px;
+  color: gray;
+}
+
+/* === Кнопки внутри задачи === */
+.todo-item .buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap; /* ✅ если кнопок много */
+}
+
+.todo-item .buttons button {
+  flex: 1;
+  min-width: 100px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.todo-item .buttons button:first-child {
+  background: var(--primary);
+  color: white;
+}
+.todo-item .buttons button:nth-child(2) {
+  background: var(--button-bg);
+  color: var(--button-text);
+}
+.todo-item .buttons button:last-child {
+  background: var(--danger);
+  color: white;
+}
+
+/* === Выполненные задачи === */
+.todo-item.completed {
+  background: #d9ffd9; /* ✅ светло-зелёный фон */
+  color: #444;
+}
+[data-theme="dark"] .todo-item.completed {
+  background: #2d3a2d; /* ✅ тёмный фон в тёмной теме */
+  color: #bbb;
+}
+.todo-item.completed .buttons button:nth-child(2) {
+  background: var(--success); /* ✅ кнопка "Выполнено" зелёная */
+  color: white;
+}
+
+/* === Фильтры === */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.filters button {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--button-bg);
+  color: var(--button-text);
+  transition: 0.2s;
+}
+.filters button.active,
+.filters button:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* === Футер === */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+.counter {
+  font-size: 14px;
+}
+.clear-btn {
+  background: var(--danger);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.clear-btn:hover {
+  background: #d32f2f;
+}
+
+/* === Анимации задач === */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+}
