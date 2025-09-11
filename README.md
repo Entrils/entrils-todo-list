@@ -11,3 +11,15 @@ https://entrils-todo-list.netlify.app/ - Demo
 - Темы оформления (зелёная, тёмная, голубая)
 - Drag and drop между колонками
 - Анимации на GSAP (входы, hover-эффекты, drag-preview, shimmer)
+
+## Стек
+- React + Vite
+- CSS Modules
+- LocalStorage
+- GSAP
+
+## Установка и запуск
+```bash
+npm install
+npm run dev
+```
