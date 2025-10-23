@@ -67,3 +67,70 @@ function App() {
   const { filteredTodos, navActive, projectActive } = useTodos({
     todos,
     filter,
+    projectFilter,
+    tagFilter,
+    priorityFilter,
+    dueFilter,
+    search,
+    showComposer,
+  });
+
+  const navStats = useMemo(() => {
+    const today = startOfDay(new Date());
+
+    const stats = {
+      all: todos.length,
+      today: 0,
+      upcoming: 0,
+      overdue: 0,
+      completed: 0,
+    };
+
+    todos.forEach((todo) => {
+      if (todo.completed) {
+        stats.completed += 1;
+      }
+
+      if (!todo.dueDate || todo.completed) {
+        return;
+      }
+
+      const due = startOfDay(new Date(todo.dueDate));
+      if (due.getTime() === today.getTime()) stats.today += 1;
+      if (due > today) stats.upcoming += 1;
+      if (due < today) stats.overdue += 1;
+    });
+
+    return stats;
+  }, [todos]);
+
+  const {
+    openComposer,
+    closeComposer,
+    handleNavSelect,
+    handleProjectSelect,
+    handleProjectReset,
+  } = useNavigationHandlers({
+    inputRef,
+    setShowComposer,
+    setFilter,
+    setDueFilter,
+    setProjectFilter,
+  });
+
+  useEffect(() => {
+    const isEditableElement = (target) => {
+      if (!(target instanceof HTMLElement)) return false;
+
+      const tag = target.tagName;
+      return (
+        target.isContentEditable ||
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "SELECT"
+      );
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.defaultPrevented) return;
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
