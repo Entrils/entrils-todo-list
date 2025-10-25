@@ -134,3 +134,72 @@ function App() {
     const handleKeyDown = (event) => {
       if (event.defaultPrevented) return;
       if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+      const activeElement = document.activeElement;
+      const inEditable = isEditableElement(activeElement);
+
+      if (event.key === "Escape") {
+        if (showComposer) {
+          event.preventDefault();
+          closeComposer();
+        }
+        return;
+      }
+
+      if (event.key === "/" && !inEditable) {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+        searchInputRef.current?.select();
+        return;
+      }
+
+      if ((event.key === "n" || event.key === "N") && !inEditable) {
+        event.preventDefault();
+        if (!showComposer) {
+          openComposer();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showComposer, openComposer, closeComposer]);
+
+  useEffect(() => {
+    if (!shellRef.current) return undefined;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: {
+          duration: 0.52,
+          ease: "power3.out",
+        },
+      });
+
+      tl.fromTo(
+        "[data-anim-shell='sidebar']",
+        { x: -30, autoAlpha: 0 },
+        { x: 0, autoAlpha: 1 }
+      ).fromTo(
+        "[data-anim-shell='workspace']",
+        { y: 20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1 },
+        "-=0.36"
+      );
+    }, shellRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return undefined;
+
+    const blobs = [meshARef.current, meshBRef.current, meshCRef.current].filter(Boolean);
+    if (!blobs.length) return undefined;
+
+    const tweenA = gsap.to(blobs[0], {
