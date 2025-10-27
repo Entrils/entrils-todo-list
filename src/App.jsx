@@ -203,3 +203,72 @@ function App() {
     if (!blobs.length) return undefined;
 
     const tweenA = gsap.to(blobs[0], {
+      x: 48,
+      y: 32,
+      scale: 1.06,
+      duration: 12,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
+    const tweenB = gsap.to(blobs[1], {
+      x: -44,
+      y: 24,
+      scale: 0.96,
+      duration: 14,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
+    const tweenC = gsap.to(blobs[2], {
+      x: 22,
+      y: -26,
+      scale: 1.08,
+      duration: 16,
+      ease: "sine.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
+
+    return () => {
+      tweenA.kill();
+      tweenB.kill();
+      tweenC.kill();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!shellRef.current) return undefined;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    if (reduced || !finePointer || window.innerWidth < 1100) return undefined;
+
+    const sidebar = sidebarShellRef.current;
+    const workspace = workspaceCardRef.current;
+    const mesh = meshBackdropRef.current;
+    if (!sidebar || !workspace || !mesh) return undefined;
+
+    const sideX = gsap.quickTo(sidebar, "x", { duration: 0.38, ease: "power2.out" });
+    const sideY = gsap.quickTo(sidebar, "y", { duration: 0.38, ease: "power2.out" });
+    const workX = gsap.quickTo(workspace, "x", { duration: 0.4, ease: "power2.out" });
+    const workY = gsap.quickTo(workspace, "y", { duration: 0.4, ease: "power2.out" });
+    const meshX = gsap.quickTo(mesh, "x", { duration: 0.44, ease: "power2.out" });
+    const meshY = gsap.quickTo(mesh, "y", { duration: 0.44, ease: "power2.out" });
+
+    const handleMove = (event) => {
+      const rect = shellRef.current.getBoundingClientRect();
+      const px = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      const py = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      sideX(px * 2.4);
+      sideY(py * 1.6);
+      workX(px * -3.2);
+      workY(py * -2.2);
+      meshX(px * -9.5);
+      meshY(py * -6.4);
+    };
+
+    const handleLeave = () => {
+      sideX(0);
+      sideY(0);
