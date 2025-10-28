@@ -340,3 +340,71 @@ function App() {
           setDragFocus(true);
           inputRef.current?.focus();
         }}
+        onDragLeave={() => setDragFocus(false)}
+        onDrop={() => setDragFocus(false)}
+      >
+        <div ref={workspaceCardRef} className={styles.workspaceCard}>
+          <HeaderBar
+            title={showComposer ? "Создание задачи" : "Список задач"}
+            subtitle={`${filteredTodos.length} задач на доске`}
+            search={search}
+            onSearchChange={setSearch}
+            searchInputRef={searchInputRef}
+            themeLabel={activeTheme.label}
+            onThemeToggle={handleThemeNext}
+            onAdd={openComposer}
+          />
+
+          {showComposer ? (
+            <div ref={composerRef} className={styles.composer}>
+              <div className={styles.composerTitle}>Новая карточка</div>
+              <TodoForm
+                addTodo={(text, meta) => {
+                  const ok = addTodo(text, meta);
+                  if (ok) setShowComposer(false);
+                }}
+                projects={projects}
+                tags={tags}
+                inputRef={inputRef}
+                defaultProject={projectFilter !== "all" ? projectFilter : "Inbox"}
+                onCancel={closeComposer}
+              />
+            </div>
+          ) : null}
+
+          {!showComposer ? (
+            <FiltersPanel
+              tagFilter={tagFilter}
+              tags={tags}
+              onTagChange={setTagFilter}
+              priorityFilter={priorityFilter}
+              onPriorityChange={setPriorityFilter}
+              dueFilter={dueFilter}
+              onDueChange={setDueFilter}
+            />
+          ) : null}
+
+          {!showComposer ? (
+            filteredTodos.length === 0 ? (
+              <div className={styles.emptyState}>
+                <h3 className={styles.emptyTitle}>Карточек не найдено</h3>
+                <p>Снимите часть фильтров или добавьте новую задачу в колонку To Do.</p>
+              </div>
+            ) : (
+              <TodoListView
+                todos={filteredTodos}
+                getNodeRef={getNodeRef}
+                onToggle={toggleTodo}
+                onDelete={deleteTodo}
+                onEdit={editTodo}
+                onMove={moveTodo}
+              />
+            )
+          ) : null}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default App;
