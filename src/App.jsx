@@ -272,3 +272,71 @@ function App() {
     const handleLeave = () => {
       sideX(0);
       sideY(0);
+      workX(0);
+      workY(0);
+      meshX(0);
+      meshY(0);
+    };
+
+    const node = shellRef.current;
+    node.addEventListener("pointermove", handleMove);
+    node.addEventListener("pointerleave", handleLeave);
+
+    return () => {
+      node.removeEventListener("pointermove", handleMove);
+      node.removeEventListener("pointerleave", handleLeave);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!showComposer || !composerRef.current) return;
+
+    gsap.fromTo(
+      composerRef.current,
+      { y: 18, autoAlpha: 0, scale: 0.98 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        scale: 1,
+        duration: 0.34,
+        ease: "power3.out",
+      }
+    );
+  }, [showComposer]);
+
+  const getNodeRef = (id) => {
+    if (!nodeRefs.current.has(id)) {
+      nodeRefs.current.set(id, { current: null });
+    }
+    return nodeRefs.current.get(id);
+  };
+
+  return (
+    <div ref={shellRef} className={styles.shell}>
+      <div ref={meshBackdropRef} className={styles.meshBackdrop}>
+        <span ref={meshARef} className={`${styles.meshBlob} ${styles.meshBlobA}`} />
+        <span ref={meshBRef} className={`${styles.meshBlob} ${styles.meshBlobB}`} />
+        <span ref={meshCRef} className={`${styles.meshBlob} ${styles.meshBlobC}`} />
+      </div>
+
+      <div ref={sidebarShellRef} data-anim-shell="sidebar">
+        <Sidebar
+          navActive={navActive}
+          onNavSelect={handleNavSelect}
+          navStats={navStats}
+          projects={projects}
+          projectActive={projectActive}
+          onProjectSelect={handleProjectSelect}
+          onProjectReset={handleProjectReset}
+          projectColors={PROJECT_COLORS}
+        />
+      </div>
+
+      <main
+        ref={workspaceShellRef}
+        data-anim-shell="workspace"
+        className={`${styles.app} ${dragFocus ? styles.dragFocus : ""}`}
+        onDragEnter={() => {
+          setDragFocus(true);
+          inputRef.current?.focus();
+        }}
