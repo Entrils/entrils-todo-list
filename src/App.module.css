@@ -35,3 +35,39 @@
 }
 
 .meshBlobB {
+  width: min(40vw, 560px);
+  height: min(40vw, 560px);
+  right: -8%;
+  top: 12%;
+  background: radial-gradient(circle, var(--mesh-b) 0%, transparent 72%);
+}
+
+.meshBlobC {
+  width: min(38vw, 520px);
+  height: min(38vw, 520px);
+  left: 30%;
+  bottom: -24%;
+  background: radial-gradient(circle, var(--mesh-c) 0%, transparent 74%);
+}
+
+.app {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.workspaceCard {
+  min-height: calc(100vh - 48px);
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--line) 66%, transparent);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--glass-surface) 92%, transparent),
+    color-mix(in srgb, var(--glass-surface-soft) 70%, transparent)
+  );
+  backdrop-filter: blur(14px) saturate(1.02);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #ffffff 34%, transparent),
+    var(--shadow-lg);
+  padding: 20px;
