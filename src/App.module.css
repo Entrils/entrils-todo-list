@@ -1,4 +1,4 @@
-.shell {
+﻿.shell {
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -108,3 +108,39 @@
   padding: 26px;
   text-align: center;
   color: var(--muted);
+}
+
+.emptyTitle {
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+
+@media (max-width: 1180px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .meshBackdrop {
+    inset: -120px -40px;
+  }
+
+  .app {
+    padding: 18px;
+  }
+
+  .workspaceCard {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .app {
+    padding: 12px;
+  }
+
+  .workspaceCard {
+    border-radius: 16px;
+    padding: 14px;
+    gap: 14px;
+  }
+}
