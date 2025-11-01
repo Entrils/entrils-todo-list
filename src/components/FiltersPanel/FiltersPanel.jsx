@@ -64,3 +64,36 @@ function FiltersPanel({
 
     return () => {
       listeners.forEach(([element, onFocus, onBlur]) => {
+        element.removeEventListener("focus", onFocus);
+        element.removeEventListener("blur", onBlur);
+      });
+      ctx.revert();
+    };
+  }, [tags.length]);
+
+  return (
+    <section ref={panelRef} className={styles.panel}>
+      <div data-anim="filter-header" className={styles.header}>
+        <h2 className={styles.title}>Фильтры доски</h2>
+        <p className={styles.subtitle}>Сфокусируйтесь на нужных задачах</p>
+      </div>
+
+      <div className={styles.filters}>
+        <label data-anim="filter-field" className={styles.label}>
+          Тег
+          <select
+            className={styles.select}
+            value={tagFilter}
+            onChange={(event) => onTagChange(event.target.value)}
+          >
+            <option value="all">Все</option>
+            {tags.map((tag) => (
+              <option key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label data-anim="filter-field" className={styles.label}>
+          Приоритет
