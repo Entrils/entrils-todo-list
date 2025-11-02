@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import styles from "./FiltersPanel.module.css";
 
@@ -97,3 +97,35 @@ function FiltersPanel({
 
         <label data-anim="filter-field" className={styles.label}>
           Приоритет
+          <select
+            className={styles.select}
+            value={priorityFilter}
+            onChange={(event) => onPriorityChange(event.target.value)}
+          >
+            <option value="all">Любой</option>
+            <option value="high">Высокий</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий</option>
+          </select>
+        </label>
+
+        <label data-anim="filter-field" className={styles.label}>
+          Дедлайн
+          <select
+            className={styles.select}
+            value={dueFilter}
+            onChange={(event) => onDueChange(event.target.value)}
+          >
+            <option value="any">Любой</option>
+            <option value="today">Сегодня</option>
+            <option value="overdue">Просрочено</option>
+            <option value="upcoming">Будущее</option>
+            <option value="none">Без даты</option>
+          </select>
+        </label>
+      </div>
+    </section>
+  );
+}
+
+export default FiltersPanel;
