@@ -20,3 +20,26 @@
   text-transform: uppercase;
   color: color-mix(in srgb, var(--ink) 74%, transparent);
 }
+
+.subtitle {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.select {
+  padding: 9px 10px;
+  border-radius: 9px;
