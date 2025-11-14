@@ -68,3 +68,39 @@ function HeaderBar({
           ease: "power2.out",
         });
       };
+
+      const onLeave = () => {
+        gsap.to(button, {
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration: 0.22,
+          ease: "power2.out",
+        });
+      };
+
+      button.addEventListener("pointermove", onMove);
+      button.addEventListener("pointerleave", onLeave);
+      listeners.push([button, onMove, onLeave]);
+    });
+
+    return () => {
+      listeners.forEach(([button, onMove, onLeave]) => {
+        button.removeEventListener("pointermove", onMove);
+        button.removeEventListener("pointerleave", onLeave);
+      });
+      ctx.revert();
+    };
+  }, [title, subtitle]);
+
+  return (
+    <header ref={headerRef} className={styles.header}>
+      <div data-anim="header-meta" className={styles.meta}>
+        <p className={styles.kicker}>Entrils To do list</p>
+        <h1 className={styles.title}>{title}</h1>
+        <p className={styles.subtitle}>{subtitle}</p>
+      </div>
+
+      <div data-anim="header-actions" className={styles.actions}>
+        <label className={styles.searchWrap}>
+          <span className={styles.searchLabel}>Поиск</span>
