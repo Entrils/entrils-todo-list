@@ -104,3 +104,38 @@ function HeaderBar({
       <div data-anim="header-actions" className={styles.actions}>
         <label className={styles.searchWrap}>
           <span className={styles.searchLabel}>Поиск</span>
+          <input
+            ref={searchInputRef}
+            className={styles.search}
+            type="text"
+            value={search}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder="Задача, проект, тег (/)"
+          />
+        </label>
+
+        <div className={styles.tools}>
+          <button
+            data-magnetic="true"
+            type="button"
+            className={styles.button}
+            onClick={onThemeToggle}
+          >
+            Тема: {themeLabel}
+          </button>
+          <button
+            data-magnetic="true"
+            type="button"
+            className={styles.primaryButton}
+            onClick={onAdd}
+            title="N"
+          >
+            + Новая задача
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default HeaderBar;
