@@ -36,3 +36,41 @@
 .subtitle {
   margin: 5px 0 0;
   color: color-mix(in srgb, var(--muted) 86%, transparent);
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: grid;
+  gap: 10px;
+}
+
+.searchWrap {
+  display: grid;
+  gap: 6px;
+}
+
+.searchLabel {
+  font-size: 0.74rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.search {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--glass-surface) 90%, transparent);
+  color: var(--ink);
+  font-size: 0.93rem;
+}
+
+.search:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--line) 42%, var(--accent));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.tools {
+  display: flex;
