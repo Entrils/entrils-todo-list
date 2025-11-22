@@ -37,3 +37,42 @@ function Sidebar({
         { autoAlpha: 0, y: 12 },
         {
           autoAlpha: 1,
+          y: 0,
+          duration: 0.38,
+          ease: "power2.out",
+          stagger: 0.08,
+          delay: 0.08,
+        }
+      );
+
+      gsap.fromTo(
+        "[data-anim='sidebar-item']",
+        { autoAlpha: 0, x: -10 },
+        {
+          autoAlpha: 1,
+          x: 0,
+          duration: 0.3,
+          ease: "power2.out",
+          stagger: 0.02,
+          delay: 0.16,
+        }
+      );
+    }, sidebarRef);
+
+    const itemElements = sidebarRef.current.querySelectorAll("[data-anim='sidebar-item']");
+    const listeners = [];
+
+    itemElements.forEach((element) => {
+      const onEnter = () => {
+        gsap.to(element, {
+          x: 4,
+          duration: 0.16,
+          ease: "power2.out",
+        });
+      };
+
+      const onLeave = () => {
+        gsap.to(element, {
+          x: 0,
+          duration: 0.16,
+          ease: "power2.out",
