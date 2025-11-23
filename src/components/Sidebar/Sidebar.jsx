@@ -76,3 +76,42 @@ function Sidebar({
           x: 0,
           duration: 0.16,
           ease: "power2.out",
+        });
+      };
+
+      element.addEventListener("mouseenter", onEnter);
+      element.addEventListener("mouseleave", onLeave);
+      listeners.push([element, onEnter, onLeave]);
+    });
+
+    return () => {
+      listeners.forEach(([element, onEnter, onLeave]) => {
+        element.removeEventListener("mouseenter", onEnter);
+        element.removeEventListener("mouseleave", onLeave);
+      });
+      ctx.revert();
+    };
+  }, [projects.length]);
+
+  const itemClass = (active) =>
+    active ? `${styles.item} ${styles.itemActive}` : styles.item;
+
+  return (
+    <aside ref={sidebarRef} className={styles.sidebar}>
+      <div data-anim="sidebar-brand" className={styles.brandBlock}>
+        <div className={styles.logo}>ET</div>
+        <div>
+          <p className={styles.brandTitle}>Entrils To do list</p>
+          <p className={styles.brandHint}>Доска задач</p>
+        </div>
+      </div>
+
+      <div data-anim="sidebar-section" className={styles.section}>
+        <div className={styles.title}>Навигация</div>
+        <div className={styles.list}>
+          {navItems.map((item) => (
+            <button
+              data-anim="sidebar-item"
+              key={item.id}
+              className={itemClass(navActive === item.id)}
+              onClick={() => onNavSelect(item.id)}
