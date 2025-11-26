@@ -115,3 +115,42 @@ function Sidebar({
               key={item.id}
               className={itemClass(navActive === item.id)}
               onClick={() => onNavSelect(item.id)}
+            >
+              <span>{item.label}</span>
+              <span className={styles.counter}>{navStats[item.id] ?? 0}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div data-anim="sidebar-section" className={styles.section}>
+        <div className={styles.title}>Проекты</div>
+        <div className={styles.list}>
+          {projects.map((project, index) => (
+            <button
+              data-anim="sidebar-item"
+              key={project}
+              className={itemClass(projectActive === project)}
+              onClick={() => onProjectSelect(project)}
+            >
+              <span
+                className={styles.dot}
+                style={{ background: projectColors[index % projectColors.length] }}
+              />
+              <span className={styles.projectName}>{project}</span>
+            </button>
+          ))}
+          <button
+            data-anim="sidebar-item"
+            className={`${styles.item} ${styles.itemGhost}`}
+            onClick={onProjectReset}
+          >
+            Сбросить фильтр
+          </button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+export default Sidebar;
