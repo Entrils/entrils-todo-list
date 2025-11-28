@@ -1,0 +1,37 @@
+.sidebar {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--sidebar-start) 72%, var(--glass-surface)),
+    color-mix(in srgb, var(--sidebar-end) 72%, var(--glass-surface-soft))
+  );
+  border-right: 1px solid color-mix(in srgb, var(--line) 68%, transparent);
+  backdrop-filter: blur(10px) saturate(1.04);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, #ffffff 20%, transparent);
+  padding: 20px 16px;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-height: 100vh;
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: #f5fffd;
+  font-weight: 700;
+  background: linear-gradient(150deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 8px 16px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.brandTitle {
