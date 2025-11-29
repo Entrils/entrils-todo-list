@@ -35,3 +35,39 @@
 }
 
 .brandTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.brandHint {
+  margin: 2px 0 0;
+  font-size: 0.76rem;
+  color: color-mix(in srgb, var(--muted) 86%, transparent);
+}
+
+.section {
+  display: grid;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.list {
+  display: grid;
+  gap: 4px;
+}
+
+.item {
+  border: 1px solid transparent;
+  background: color-mix(in srgb, var(--glass-surface) 42%, transparent);
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 9px;
+  cursor: pointer;
