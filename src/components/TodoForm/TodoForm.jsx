@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import styles from "./TodoForm.module.css";
 
 function TodoForm({ addTodo, projects, tags, inputRef, defaultProject, onCancel }) {
@@ -70,3 +70,39 @@ function TodoForm({ addTodo, projects, tags, inputRef, defaultProject, onCancel 
           {tags.map((tag) => (
             <option key={tag} value={tag} />
           ))}
+        </datalist>
+
+        <label className={styles.field}>
+          Приоритет
+          <select className={styles.select} value={priority} onChange={(event) => setPriority(event.target.value)}>
+            <option value="high">Высокий</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий</option>
+          </select>
+        </label>
+
+        <label className={styles.field}>
+          Колонка
+          <select className={styles.select} value={stage} onChange={(event) => setStage(event.target.value)}>
+            <option value="todo">To Do</option>
+            <option value="in_progress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </label>
+
+        <label className={styles.field}>
+          Дедлайн
+          <input
+            className={styles.input}
+            type="date"
+            value={dueDate}
+            onChange={(event) => setDueDate(event.target.value)}
+          />
+        </label>
+      </div>
+    </form>
+  );
+}
+
+export default TodoForm;
+
