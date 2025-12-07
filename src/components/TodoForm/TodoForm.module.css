@@ -1,0 +1,27 @@
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.primaryRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.input,
+.select {
+  width: 100%;
