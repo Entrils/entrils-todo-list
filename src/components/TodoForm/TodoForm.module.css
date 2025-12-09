@@ -1,4 +1,4 @@
-.form {
+﻿.form {
   display: grid;
   gap: 12px;
 }
@@ -50,3 +50,30 @@
   color: #f4fffb;
   background: linear-gradient(140deg, var(--accent), var(--accent-strong));
 }
+
+.button:hover {
+  filter: brightness(1.06);
+}
+
+.ghost {
+  color: var(--muted);
+  border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+}
+
+@media (max-width: 1080px) {
+  .metaGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .primaryRow {
+    grid-template-columns: 1fr;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
