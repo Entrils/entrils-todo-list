@@ -115,3 +115,61 @@ const TodoItem = forwardRef(function TodoItem(
         transformPerspective: 900,
         duration: 0.18,
         ease: "power2.out",
+      });
+    };
+
+    const onLeave = () => {
+      gsap.to(item, {
+        y: 0,
+        scale: 1,
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.22,
+        ease: "power2.out",
+      });
+    };
+
+    item.addEventListener("pointerenter", onEnter);
+    item.addEventListener("pointermove", onMove);
+    item.addEventListener("pointerleave", onLeave);
+
+    const buttons = item.querySelectorAll("[data-card-magnetic='true']");
+    const buttonListeners = [];
+
+    buttons.forEach((button) => {
+      const onButtonMove = (event) => {
+        const rect = button.getBoundingClientRect();
+        const x = event.clientX - rect.left - rect.width / 2;
+        const y = event.clientY - rect.top - rect.height / 2;
+
+        gsap.to(button, {
+          x: gsap.utils.clamp(-5, 5, x * 0.25),
+          y: gsap.utils.clamp(-3, 3, y * 0.25),
+          scale: 1.02,
+          duration: 0.14,
+          ease: "power2.out",
+        });
+      };
+
+      const onButtonLeave = () => {
+        gsap.to(button, {
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration: 0.16,
+          ease: "power2.out",
+        });
+      };
+
+      button.addEventListener("pointermove", onButtonMove);
+      button.addEventListener("pointerleave", onButtonLeave);
+      buttonListeners.push([button, onButtonMove, onButtonLeave]);
+    });
+
+    return () => {
+      item.removeEventListener("pointerenter", onEnter);
+      item.removeEventListener("pointermove", onMove);
+      item.removeEventListener("pointerleave", onLeave);
+      buttonListeners.forEach(([button, onButtonMove, onButtonLeave]) => {
+        button.removeEventListener("pointermove", onButtonMove);
+        button.removeEventListener("pointerleave", onButtonLeave);
