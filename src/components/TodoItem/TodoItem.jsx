@@ -231,3 +231,61 @@ const TodoItem = forwardRef(function TodoItem(
           <p className={styles.issueId}>Task-{todo.id}</p>
           {isEditing ? (
             <input
+              className={styles.editInput}
+              type="text"
+              value={newText}
+              onChange={(event) => setNewText(event.target.value)}
+            />
+          ) : (
+            <h3 className={styles.title}>{todo.text}</h3>
+          )}
+        </div>
+        <span className={styles.avatar}>{getInitials(todo.project)}</span>
+      </header>
+
+      <div className={styles.meta}>
+        <span className={styles.chip}>{todo.project || "Inbox"}</span>
+        <span className={`${styles.chip} ${styles.priorityChip}`}>
+          {priorityLabels[todo.priority || "medium"]}
+        </span>
+        {(todo.tags || []).slice(0, 2).map((tag) => (
+          <span key={tag} className={styles.chip}>
+            #{tag}
+          </span>
+        ))}
+      </div>
+
+      <p className={`${styles.dueLine} ${styles[dueInfo.status]}`}>{dueInfo.label}</p>
+      <p className={styles.timestamp}>Создано: {formatDate(todo.createdAt)}</p>
+
+      <div className={styles.actions}>
+        <button
+          data-card-magnetic="true"
+          type="button"
+          className={styles.actionButton}
+          onClick={handleEdit}
+        >
+          {isEditing ? "Сохранить" : "Редактировать"}
+        </button>
+        <button
+          data-card-magnetic="true"
+          type="button"
+          className={styles.actionButton}
+          onClick={() => toggleTodo(todo.id)}
+        >
+          {todo.completed ? "Вернуть" : "Готово"}
+        </button>
+        <button
+          data-card-magnetic="true"
+          type="button"
+          className={`${styles.actionButton} ${styles.danger}`}
+          onClick={() => deleteTodo(todo.id)}
+        >
+          Удалить
+        </button>
+      </div>
+    </article>
+  );
+});
+
+export default TodoItem;
