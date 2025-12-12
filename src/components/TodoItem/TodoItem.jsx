@@ -173,3 +173,61 @@ const TodoItem = forwardRef(function TodoItem(
       buttonListeners.forEach(([button, onButtonMove, onButtonLeave]) => {
         button.removeEventListener("pointermove", onButtonMove);
         button.removeEventListener("pointerleave", onButtonLeave);
+      });
+    };
+  }, [isEditing, todo.id]);
+
+  const handleEdit = () => {
+    if (isEditing) {
+      if (newText.trim() === "") return;
+      editTodo(todo.id, newText);
+    }
+
+    setIsEditing((current) => !current);
+  };
+
+  const dueInfo = useMemo(() => {
+    if (!todo.dueDate) {
+      return { label: "Без даты", status: "none" };
+    }
+
+    const today = startOfDay(new Date());
+    const due = startOfDay(new Date(todo.dueDate));
+
+    if (!todo.completed && due < today) {
+      return {
+        label: `Просрочено: ${new Date(todo.dueDate).toLocaleDateString()}`,
+        status: "overdue",
+      };
+    }
+
+    if (due.getTime() === today.getTime()) {
+      return {
+        label: `Сегодня: ${new Date(todo.dueDate).toLocaleDateString()}`,
+        status: "today",
+      };
+    }
+
+    return {
+      label: `Срок: ${new Date(todo.dueDate).toLocaleDateString()}`,
+      status: "upcoming",
+    };
+  }, [todo.completed, todo.dueDate]);
+
+  return (
+    <article
+      ref={setRefs}
+      data-todo-card={todo.id}
+      data-flip-card="true"
+      className={`${styles.item} ${styles[`priority_${todo.priority || "medium"}`]} ${todo.completed ? styles.completed : ""} ${isDropTarget ? styles.dropTarget : ""}`}
+      draggable={!isEditing}
+      onDragStart={(event) => onDragStart?.(event, todo.id)}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOverCard}
+      onDrop={onDropCard}
+    >
+      <header className={styles.header}>
+        <div>
+          <p className={styles.issueId}>Task-{todo.id}</p>
+          {isEditing ? (
+            <input
