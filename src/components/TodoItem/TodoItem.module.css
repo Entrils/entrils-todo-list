@@ -1,0 +1,47 @@
+.item {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 9px;
+  background: linear-gradient(
+    164deg,
+    color-mix(in srgb, var(--glass-surface) 92%, transparent),
+    color-mix(in srgb, var(--glass-surface-soft) 66%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-left-width: 4px;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 6px 14px rgba(8, 22, 30, 0.06);
+  cursor: grab;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--glow-x) var(--glow-y),
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 56%
+  );
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.item:hover::before {
+  opacity: 1;
+}
+
+.item:active {
+  cursor: grabbing;
+}
+
+.dropTarget {
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent),
