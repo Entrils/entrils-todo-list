@@ -138,3 +138,49 @@
 
 .chip::after {
   content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(
+    100deg,
+    transparent,
+    color-mix(in srgb, #ffffff 42%, transparent),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--line) 48%, var(--accent));
+  background: color-mix(in srgb, var(--surface) 84%, var(--board-muted));
+}
+
+.chip:hover::after {
+  transform: translateX(120%);
+  transition: transform 0.42s ease;
+}
+
+.priorityChip {
+  font-weight: 600;
+}
+
+.dueLine {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.today {
+  color: #2b7bcf;
+}
+
+.overdue {
+  color: var(--danger);
+}
+
+.upcoming {
+  color: #2f9156;
+}
+
+.none {
