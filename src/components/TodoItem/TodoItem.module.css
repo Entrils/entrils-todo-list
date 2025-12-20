@@ -91,3 +91,50 @@
   padding: 7px 9px;
   border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
   border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 90%, #ffffff);
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--line) 46%, var(--accent));
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  background: color-mix(in srgb, var(--board-muted) 76%, var(--surface));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--ink) 72%, transparent);
+  flex-shrink: 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+  background: color-mix(in srgb, var(--surface) 90%, var(--board-muted));
+  padding: 2px 7px;
+  font-size: 0.7rem;
+  color: color-mix(in srgb, var(--ink) 84%, transparent);
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.chip::after {
+  content: "";
