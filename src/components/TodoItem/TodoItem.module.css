@@ -45,3 +45,49 @@
 .dropTarget {
   box-shadow:
     0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 8px 16px rgba(8, 22, 30, 0.08);
+}
+
+.priority_high {
+  border-left-color: #d44343;
+}
+
+.priority_medium {
+  border-left-color: #cc9d2a;
+}
+
+.priority_low {
+  border-left-color: #4b8adb;
+}
+
+.completed {
+  opacity: 0.72;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.issueId {
+  margin: 0;
+  font-size: 0.66rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.editInput {
+  margin-top: 4px;
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: 8px;
