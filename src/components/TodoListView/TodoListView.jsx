@@ -85,3 +85,89 @@ function TodoListView({ todos, getNodeRef, onToggle, onDelete, onEdit, onMove })
     source: null,
     offsetX: 0,
     offsetY: 0,
+    xTo: null,
+    yTo: null,
+  });
+  const transparentDragImageRef = useRef(null);
+
+  const [dropTarget, setDropTarget] = useState({ columnId: null, beforeId: null });
+  const [dragActive, setDragActive] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowSkeleton(false);
+    }, 430);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, []);
+
+  const grouped = useMemo(() => {
+    const initial = {
+      todo: [],
+      in_progress: [],
+      done: [],
+    };
+
+    todos.forEach((todo) => {
+      const stage = resolveStage(todo);
+      if (!initial[stage]) {
+        initial.todo.push(todo);
+        return;
+      }
+
+      initial[stage].push(todo);
+    });
+
+    return {
+      todo: initial.todo.sort(sortByOrder),
+      in_progress: initial.in_progress.sort(sortByOrder),
+      done: initial.done.sort(sortByOrder),
+    };
+  }, [todos]);
+
+  const clearDropTarget = () => {
+    setDropTarget({ columnId: null, beforeId: null });
+  };
+
+  const cleanupDragPreview = useCallback((withAnimation = true) => {
+    const state = dragStateRef.current;
+
+    if (state.source) {
+      gsap.killTweensOf(state.source);
+      gsap.to(state.source, {
+        scale: 1,
+        opacity: 1,
+        duration: 0.16,
+        ease: "power2.out",
+        clearProps: "transform,opacity",
+      });
+    }
+
+    if (state.mirror) {
+      gsap.killTweensOf(state.mirror);
+
+      if (withAnimation) {
+        gsap.to(state.mirror, {
+          scale: 0.88,
+          opacity: 0,
+          duration: 0.16,
+          ease: "power2.in",
+          onComplete: () => {
+            state.mirror?.remove();
+          },
+        });
+      } else {
+        state.mirror.remove();
+      }
+    }
+
+    dragStateRef.current = {
+      mirror: null,
+      source: null,
+      offsetX: 0,
+      offsetY: 0,
+      xTo: null,
+      yTo: null,
