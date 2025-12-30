@@ -171,3 +171,89 @@ function TodoListView({ todos, getNodeRef, onToggle, onDelete, onEdit, onMove })
       offsetY: 0,
       xTo: null,
       yTo: null,
+    };
+  }, []);
+
+  const resetDragState = useCallback(
+    (withAnimation = true) => {
+      clearDropTarget();
+      setDragActive(false);
+      cleanupDragPreview(withAnimation);
+    },
+    [cleanupDragPreview]
+  );
+
+  useEffect(() => {
+    return () => {
+      cleanupDragPreview(false);
+    };
+  }, [cleanupDragPreview]);
+
+  useEffect(() => {
+    const forceReset = () => {
+      resetDragState(false);
+    };
+
+    window.addEventListener("dragend", forceReset);
+    window.addEventListener("drop", forceReset);
+    window.addEventListener("mouseup", forceReset);
+    window.addEventListener("touchend", forceReset);
+
+    return () => {
+      window.removeEventListener("dragend", forceReset);
+      window.removeEventListener("drop", forceReset);
+      window.removeEventListener("mouseup", forceReset);
+      window.removeEventListener("touchend", forceReset);
+    };
+  }, [resetDragState]);
+
+  useLayoutEffect(() => {
+    const boardNode = boardRef.current;
+    if (!boardNode) return undefined;
+
+    return () => {
+      const cards = boardNode.querySelectorAll("[data-flip-card='true']");
+      if (cards.length > 0) {
+        flipStateRef.current = Flip.getState(cards);
+      }
+    };
+  }, [todos]);
+
+  useLayoutEffect(() => {
+    if (!flipStateRef.current || !boardRef.current) return;
+
+    Flip.from(flipStateRef.current, {
+      duration: 0.38,
+      ease: "power2.out",
+      absolute: false,
+      prune: true,
+      simple: true,
+      stagger: 0.02,
+    });
+
+    flipStateRef.current = null;
+  }, [todos]);
+
+  useEffect(() => {
+    if (!boardRef.current) return undefined;
+
+    const columnsList = boardRef.current.querySelectorAll("[data-board-column]");
+    gsap.fromTo(
+      columnsList,
+      { opacity: 0, y: 18 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.48,
+        ease: "power2.out",
+        stagger: 0.06,
+      }
+    );
+    return undefined;
+  }, []);
+
+  useEffect(() => {
+    if (!boardRef.current) return;
+
+    const cards = boardRef.current.querySelectorAll("[data-flip-card='true']");
+    if (!cards.length) return;
