@@ -257,3 +257,90 @@ function TodoListView({ todos, getNodeRef, onToggle, onDelete, onEdit, onMove })
 
     const cards = boardRef.current.querySelectorAll("[data-flip-card='true']");
     if (!cards.length) return;
+
+    gsap.fromTo(
+      cards,
+      { y: 8, scale: 0.99 },
+      {
+        y: 0,
+        scale: 1,
+        duration: 0.26,
+        ease: "power2.out",
+        stagger: 0.02,
+        overwrite: "auto",
+      }
+    );
+  }, [todos]);
+
+  useEffect(() => {
+    if (!boardRef.current) return;
+
+    const stageMap = new Map();
+
+    todos.forEach((todo) => {
+      const stage = resolveStage(todo);
+      stageMap.set(todo.id, stage);
+
+      const prevStage = prevStagesRef.current.get(todo.id);
+      if (prevStage && prevStage !== "done" && stage === "done") {
+        const target = boardRef.current.querySelector(`[data-todo-card='${todo.id}']`);
+        if (!target) return;
+
+        gsap
+          .timeline()
+          .to(target, {
+            scale: 1.045,
+            boxShadow: "0 0 0 8px rgba(49, 168, 106, 0.22)",
+            duration: 0.18,
+            ease: "power2.out",
+          })
+          .to(target, {
+            scale: 1,
+            boxShadow: "0 7px 18px rgba(8, 22, 30, 0.06)",
+            duration: 0.32,
+            ease: "elastic.out(1, 0.55)",
+          });
+      }
+    });
+
+    prevStagesRef.current = stageMap;
+  }, [todos]);
+
+  useEffect(() => {
+    if (!boardRef.current || pendingDropIdRef.current === null) return;
+
+    const target = boardRef.current.querySelector(
+      `[data-todo-card='${pendingDropIdRef.current}']`
+    );
+
+    if (target) {
+      gsap.fromTo(
+        target,
+        { y: -12, scale: 1.03 },
+        {
+          y: 0,
+          scale: 1,
+          duration: 0.46,
+          ease: "elastic.out(1, 0.56)",
+        }
+      );
+    }
+
+    pendingDropIdRef.current = null;
+  }, [todos]);
+
+  const moveDragPreview = (event) => {
+    const state = dragStateRef.current;
+    if (!state.mirror) return;
+
+    const x = event.clientX - state.offsetX + 18;
+    const y = event.clientY - state.offsetY + 14;
+
+    state.xTo?.(x);
+    state.yTo?.(y);
+  };
+
+  const handleCardDragStart = (event, id) => {
+    if (!event.dataTransfer) return;
+
+    const source = event.currentTarget;
