@@ -344,3 +344,89 @@ function TodoListView({ todos, getNodeRef, onToggle, onDelete, onEdit, onMove })
     if (!event.dataTransfer) return;
 
     const source = event.currentTarget;
+    const rect = source.getBoundingClientRect();
+
+    if (!transparentDragImageRef.current) {
+      const image = new Image();
+      image.src = transparentImageSrc;
+      transparentDragImageRef.current = image;
+    }
+
+    setDragActive(true);
+
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", String(id));
+    event.dataTransfer.setDragImage(transparentDragImageRef.current, 0, 0);
+
+    const mirror = source.cloneNode(true);
+    mirror.classList.add(styles.dragMirror);
+    mirror.style.width = `${rect.width}px`;
+    mirror.style.height = `${rect.height}px`;
+    document.body.appendChild(mirror);
+
+    const offsetX = event.clientX - rect.left;
+    const offsetY = event.clientY - rect.top;
+
+    gsap.set(mirror, {
+      x: event.clientX - offsetX + 18,
+      y: event.clientY - offsetY + 14,
+      scale: 0.94,
+      rotate: -1.2,
+      opacity: 0,
+    });
+
+    gsap.to(mirror, {
+      scale: 1,
+      rotate: -0.4,
+      opacity: 0.96,
+      duration: 0.2,
+      ease: "power2.out",
+    });
+
+    gsap.to(source, {
+      scale: 0.98,
+      opacity: 0.28,
+      duration: 0.16,
+      ease: "power2.out",
+    });
+
+    dragStateRef.current = {
+      mirror,
+      source,
+      offsetX,
+      offsetY,
+      xTo: gsap.quickTo(mirror, "x", { duration: 0.12, ease: "power3.out" }),
+      yTo: gsap.quickTo(mirror, "y", { duration: 0.12, ease: "power3.out" }),
+    };
+  };
+
+  const handleCardDragEnd = () => {
+    resetDragState(true);
+  };
+
+  const handleDrop = (event, columnId, beforeId = null) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const rawId = event.dataTransfer.getData("text/plain");
+    const id = Number(rawId);
+    if (Number.isNaN(id)) {
+      resetDragState(true);
+      return;
+    }
+
+    if (beforeId === id) {
+      resetDragState(true);
+      return;
+    }
+
+    pendingDropIdRef.current = id;
+    onMove(id, columnId, beforeId);
+    resetDragState(true);
+  };
+
+  return (
+    <section ref={boardRef} className={styles.board}>
+      {columns.map((column) => (
+        <div
+          key={column.id}
