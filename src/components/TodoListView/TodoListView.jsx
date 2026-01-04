@@ -1,4 +1,4 @@
-import {
+﻿import {
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -430,3 +430,89 @@ function TodoListView({ todos, getNodeRef, onToggle, onDelete, onEdit, onMove })
       {columns.map((column) => (
         <div
           key={column.id}
+          data-board-column="true"
+          data-column-id={column.id}
+          className={`${styles.column} ${styles[column.tone]} ${
+            dragActive &&
+            dropTarget.columnId === column.id &&
+            dropTarget.beforeId === null
+              ? styles.columnDropActive
+              : ""
+          }`}
+          onDragOver={(event) => {
+            if (!dragActive) return;
+            event.preventDefault();
+            moveDragPreview(event);
+            setDropTarget({ columnId: column.id, beforeId: null });
+          }}
+          onDragLeave={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              clearDropTarget();
+            }
+          }}
+          onDrop={(event) => handleDrop(event, column.id)}
+        >
+          <header className={styles.columnHeader}>
+            <div>
+              <h2 className={styles.columnTitle}>{column.title}</h2>
+              <p className={styles.columnHint}>{column.hint}</p>
+            </div>
+            <span className={styles.count}>
+              <AnimatedCount value={grouped[column.id].length} />
+            </span>
+          </header>
+
+          {showSkeleton ? (
+            <div className={styles.skeletonStack}>
+              <div className={styles.skeletonCard} />
+              <div className={styles.skeletonCard} />
+            </div>
+          ) : (
+            <TransitionGroup component="div" className={styles.cards}>
+              {grouped[column.id].map((todo) => {
+                const nodeRef = getNodeRef(todo.id);
+                const isDropTarget =
+                  dropTarget.columnId === column.id && dropTarget.beforeId === todo.id;
+
+                return (
+                  <CSSTransition
+                    key={todo.id}
+                    nodeRef={nodeRef}
+                    timeout={220}
+                    classNames={{
+                      enter: styles.cardEnter,
+                      enterActive: styles.cardEnterActive,
+                      exit: styles.cardExit,
+                      exitActive: styles.cardExitActive,
+                    }}
+                  >
+                    <TodoItem
+                      ref={nodeRef}
+                      todo={todo}
+                      isDropTarget={isDropTarget}
+                      onDragStart={handleCardDragStart}
+                      onDragEnd={handleCardDragEnd}
+                      onDragOverCard={(event) => {
+                        if (!dragActive) return;
+                        event.preventDefault();
+                        event.stopPropagation();
+                        moveDragPreview(event);
+                        setDropTarget({ columnId: column.id, beforeId: todo.id });
+                      }}
+                      onDropCard={(event) => handleDrop(event, column.id, todo.id)}
+                      toggleTodo={onToggle}
+                      deleteTodo={onDelete}
+                      editTodo={onEdit}
+                    />
+                  </CSSTransition>
+                );
+              })}
+            </TransitionGroup>
+          )}
+        </div>
+      ))}
+    </section>
+  );
+}
+
+export default TodoListView;
