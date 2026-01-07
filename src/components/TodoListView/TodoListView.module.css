@@ -1,0 +1,56 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  min-height: 420px;
+  position: relative;
+}
+
+.column {
+  --column-accent: var(--accent);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: 12px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--board-muted) 52%, var(--surface)),
+      color-mix(in srgb, var(--surface) 94%, #ffffff)
+    ),
+    radial-gradient(
+      circle at 118% -16%,
+      color-mix(in srgb, var(--column-accent) 12%, transparent),
+      transparent 58%
+    );
+  padding: 10px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 10px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+  will-change: transform;
+}
+
+.column::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 0;
+  height: 2px;
+  border-radius: 0 0 999px 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--column-accent) 88%, #ffffff),
+    transparent
+  );
+  background-repeat: no-repeat;
+  background-size: 180px 100%;
+  background-position: center;
+  opacity: 0.72;
+  transform: scaleX(0.5);
