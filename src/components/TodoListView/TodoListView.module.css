@@ -54,3 +54,58 @@
   background-position: center;
   opacity: 0.72;
   transform: scaleX(0.5);
+  transform-origin: center;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.column::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--column-accent) 14%, transparent);
+  opacity: 0.24;
+  transition: opacity 180ms ease, box-shadow 180ms ease;
+}
+
+.todo {
+  --column-accent: #366fd2;
+}
+
+.inProgress {
+  --column-accent: #c58a26;
+}
+
+.done {
+  --column-accent: #2f9362;
+}
+
+.column:hover {
+  border-color: color-mix(in srgb, var(--column-accent) 40%, var(--line));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--column-accent) 8%, transparent);
+  transform: translateY(-1px);
+}
+
+.column:hover::before {
+  transform: scaleX(0.86);
+  opacity: 0.9;
+}
+
+.column:hover::after {
+  opacity: 0.5;
+}
+
+.columnDropActive {
+  border-color: color-mix(in srgb, var(--column-accent) 58%, var(--line));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--column-accent) 12%, transparent),
+    0 10px 22px color-mix(in srgb, var(--column-accent) 12%, transparent);
+  transform: translateY(-2px);
+}
+
+.columnDropActive::before {
+  opacity: 1;
+  transform: scaleX(1);
+  animation: laneSweep 1.2s linear infinite;
+}
