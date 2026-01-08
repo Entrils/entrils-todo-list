@@ -109,3 +109,58 @@
   transform: scaleX(1);
   animation: laneSweep 1.2s linear infinite;
 }
+
+.columnDropActive::after {
+  opacity: 0.88;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--column-accent) 38%, transparent),
+    inset 0 -28px 42px color-mix(in srgb, var(--column-accent) 8%, transparent);
+}
+
+.columnHeader {
+  border-top: 3px solid var(--column-accent);
+  border-radius: 8px;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.columnTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.columnHint {
+  margin: 2px 0 0;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.count {
+  min-width: 28px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+}
+
+.cards {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.skeletonStack {
+  display: grid;
+  gap: 10px;
