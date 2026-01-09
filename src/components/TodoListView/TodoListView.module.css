@@ -164,3 +164,57 @@
 .skeletonStack {
   display: grid;
   gap: 10px;
+  align-content: start;
+}
+
+.skeletonCard {
+  height: 166px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--glass-surface) 82%, transparent),
+    color-mix(in srgb, var(--glass-surface-soft) 62%, transparent)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.skeletonCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%);
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    color-mix(in srgb, #ffffff 54%, transparent) 48%,
+    transparent 100%
+  );
+  animation: skeletonShimmer 1.08s linear infinite;
+}
+
+.skeletonCard::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 14px;
+  bottom: 14px;
+  border-radius: 8px;
+  opacity: 0.56;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--line) 40%, transparent) 0 10px,
+    transparent 10px 24px,
+    color-mix(in srgb, var(--line) 32%, transparent) 24px 32px,
+    transparent 32px 42px,
+    color-mix(in srgb, var(--line) 24%, transparent) 42px 52px,
+    transparent 52px 100%
+  );
+}
+
+.cardEnter {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
