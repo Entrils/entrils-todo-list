@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 
 const defaultState = {
   filter: "all",
@@ -17,3 +17,21 @@ function useFilters(initial = {}) {
   const setProjectFilter = (value) =>
     setState((prev) => ({ ...prev, projectFilter: value }));
   const setTagFilter = (value) =>
+    setState((prev) => ({ ...prev, tagFilter: value }));
+  const setPriorityFilter = (value) =>
+    setState((prev) => ({ ...prev, priorityFilter: value }));
+  const setDueFilter = (value) =>
+    setState((prev) => ({ ...prev, dueFilter: value }));
+
+  return {
+    ...state,
+    setFilter,
+    setSearch,
+    setProjectFilter,
+    setTagFilter,
+    setPriorityFilter,
+    setDueFilter,
+  };
+}
+
+export default useFilters;
