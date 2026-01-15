@@ -109,3 +109,59 @@ function useLibraryState({ themes, theme, setTheme }) {
 
   const [newProject, setNewProject] = useState("");
   const [newTag, setNewTag] = useState("");
+
+  useEffect(() => {
+    const ids = new Set(todos.map((todo) => todo.id));
+    for (const key of nodeRefs.current.keys()) {
+      if (!ids.has(key)) nodeRefs.current.delete(key);
+    }
+  }, [todos]);
+
+  useEffect(() => {
+    setTodos((current) => normalizeCollection(current));
+  }, [setTodos]);
+
+  const addProject = () => {
+    const trimmed = newProject.trim();
+    if (!trimmed) return;
+    if (projects.includes(trimmed)) return;
+    setProjects(["Inbox", ...projects.filter((p) => p !== "Inbox"), trimmed]);
+    setNewProject("");
+  };
+
+  const addTag = () => {
+    const trimmed = newTag.trim();
+    if (!trimmed) return;
+    if (tags.includes(trimmed)) return;
+    setTags([...tags, trimmed]);
+    setNewTag("");
+  };
+
+  const removeProject = (project) => {
+    if (project === "Inbox") return;
+
+    setProjects((current) => current.filter((item) => item !== project));
+    setTodos((current) =>
+      normalizeCollection(
+        current.map((todo) =>
+          todo.project === project ? { ...todo, project: "Inbox" } : todo
+        )
+      )
+    );
+  };
+
+  const removeTag = (tag) => {
+    setTags((current) => current.filter((item) => item !== tag));
+    setTodos((current) =>
+      normalizeCollection(
+        current.map((todo) => ({
+          ...todo,
+          tags: (todo.tags || []).filter((item) => item !== tag),
+        }))
+      )
+    );
+  };
+
+  const addTodo = (text, meta) => {
+    const trimmed = text.trim();
+    if (trimmed === "") return false;
