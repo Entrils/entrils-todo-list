@@ -54,3 +54,58 @@ const flattenStageGroups = (groups) =>
   BOARD_STAGES.flatMap((stage) =>
     groups[stage].map((todo, index) => ({
       ...todo,
+      stage,
+      completed: stage === "done",
+      order: index + 1,
+    }))
+  );
+
+const normalizeCollection = (todos) =>
+  flattenStageGroups(buildStageGroups(todos));
+
+const relocateTodo = (todos, id, targetStage, beforeId = null) => {
+  const groups = buildStageGroups(todos);
+  let movingTodo = null;
+
+  BOARD_STAGES.forEach((stage) => {
+    const index = groups[stage].findIndex((todo) => todo.id === id);
+    if (index === -1) return;
+
+    movingTodo = groups[stage][index];
+    groups[stage].splice(index, 1);
+  });
+
+  if (!movingTodo) {
+    return flattenStageGroups(groups);
+  }
+
+  const nextStage = normalizeStage(targetStage, false);
+  const targetList = groups[nextStage];
+  let insertIndex = targetList.length;
+
+  if (beforeId !== null && beforeId !== undefined && beforeId !== id) {
+    const beforeIndex = targetList.findIndex((todo) => todo.id === beforeId);
+    if (beforeIndex >= 0) {
+      insertIndex = beforeIndex;
+    }
+  }
+
+  targetList.splice(insertIndex, 0, {
+    ...movingTodo,
+    stage: nextStage,
+    completed: nextStage === "done",
+  });
+
+  return flattenStageGroups(groups);
+};
+
+function useLibraryState({ themes, theme, setTheme }) {
+  const nodeRefs = useRef(new Map());
+  const importRef = useRef(null);
+
+  const [todos, setTodos] = usePersistentState("todos", []);
+  const [projects, setProjects] = usePersistentState("projects", ["Inbox"]);
+  const [tags, setTags] = usePersistentState("tags", []);
+
+  const [newProject, setNewProject] = useState("");
+  const [newTag, setNewTag] = useState("");
