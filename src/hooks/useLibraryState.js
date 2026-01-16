@@ -165,3 +165,60 @@ function useLibraryState({ themes, theme, setTheme }) {
   const addTodo = (text, meta) => {
     const trimmed = text.trim();
     if (trimmed === "") return false;
+
+    const project = (meta.project || "").trim() || "Inbox";
+    const todoTags = normalizeTags(meta.tags);
+    const stage = normalizeStage(meta.stage, false);
+
+    if (!projects.includes(project)) {
+      setProjects((current) => [...current, project]);
+    }
+
+    const nextTags = unique([...tags, ...todoTags]);
+    if (nextTags.length !== tags.length) {
+      setTags(nextTags);
+    }
+
+    setTodos((current) =>
+      normalizeCollection([
+        ...current,
+        {
+          id: Date.now(),
+          text: trimmed,
+          completed: stage === "done",
+          createdAt: new Date().toISOString(),
+          project,
+          tags: todoTags,
+          priority: meta.priority || "medium",
+          dueDate: meta.dueDate || "",
+          stage,
+          order: Number.MAX_SAFE_INTEGER,
+        },
+      ])
+    );
+
+    return true;
+  };
+
+  const moveTodo = (id, stage, beforeId = null) => {
+    const nextStage = normalizeStage(stage, false);
+
+    setTodos((current) => relocateTodo(current, id, nextStage, beforeId));
+  };
+
+  const toggleTodo = (id) => {
+    setTodos((current) => {
+      const todo = current.find((item) => item.id === id);
+      if (!todo) return current;
+
+      const nextStage = todo.completed
+        ? todo.stage === "done"
+          ? "todo"
+          : todo.stage
+        : "done";
+
+      return relocateTodo(current, id, nextStage);
+    });
+  };
+
+  const deleteTodo = (id) => {
