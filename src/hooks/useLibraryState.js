@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import usePersistentState from "../hooks/usePersistentState.js";
 import {
   BOARD_STAGES,
@@ -222,3 +222,59 @@ function useLibraryState({ themes, theme, setTheme }) {
   };
 
   const deleteTodo = (id) => {
+    setTodos((current) => current.filter((todo) => todo.id !== id));
+  };
+
+  const editTodo = (id, newText) => {
+    const trimmed = newText.trim();
+    if (trimmed === "") return;
+
+    setTodos((current) =>
+      current.map((todo) =>
+        todo.id === id ? { ...todo, text: trimmed } : todo
+      )
+    );
+  };
+
+  const importData = async (file) => {
+    if (!file) return false;
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const payload = parseImportPayload(parsed, themes, theme);
+      if (!payload) return false;
+
+      setTodos(normalizeCollection(payload.todos));
+      setProjects(payload.projects);
+      setTags(payload.tags);
+      setTheme(payload.theme);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  return {
+    nodeRefs,
+    importRef,
+    todos,
+    projects,
+    tags,
+    newProject,
+    setNewProject,
+    newTag,
+    setNewTag,
+    addProject,
+    addTag,
+    removeProject,
+    removeTag,
+    addTodo,
+    moveTodo,
+    toggleTodo,
+    deleteTodo,
+    editTodo,
+    importData,
+  };
+}
+
+export default useLibraryState;
