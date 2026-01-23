@@ -1,4 +1,4 @@
-function useNavigationHandlers({ inputRef, setShowComposer, setFilter, setDueFilter, setProjectFilter }) {
+﻿function useNavigationHandlers({ inputRef, setShowComposer, setFilter, setDueFilter, setProjectFilter }) {
   const openComposer = () => {
     setShowComposer(true);
     requestAnimationFrame(() => inputRef.current?.focus());
@@ -21,3 +21,26 @@ function useNavigationHandlers({ inputRef, setShowComposer, setFilter, setDueFil
     }
     setFilter("all");
     setDueFilter(target);
+  };
+
+  const handleProjectSelect = (project) => {
+    setShowComposer(false);
+    setProjectFilter(project);
+    setFilter("all");
+  };
+
+  const handleProjectReset = () => {
+    setShowComposer(false);
+    setProjectFilter("all");
+  };
+
+  return {
+    openComposer,
+    closeComposer,
+    handleNavSelect,
+    handleProjectSelect,
+    handleProjectReset,
+  };
+}
+
+export { useNavigationHandlers };
