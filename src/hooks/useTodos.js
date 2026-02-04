@@ -1,4 +1,4 @@
-const startOfDay = (date) =>
+﻿const startOfDay = (date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
 function useTodos({
@@ -62,3 +62,34 @@ function useTodos({
 
   const titleLabel = (() => {
     if (dueFilter === "today") return "Сегодня";
+    if (dueFilter === "overdue") return "Просрочено";
+    if (filter === "completed") return "Выполненные";
+    if (filter === "active") return "Активные";
+    return projectFilter !== "all" ? projectFilter : "Список";
+  })();
+
+  const navActive = showComposer
+    ? null
+    : dueFilter === "today"
+    ? "today"
+    : dueFilter === "upcoming"
+    ? "upcoming"
+    : dueFilter === "overdue"
+    ? "overdue"
+    : filter === "completed"
+    ? "completed"
+    : filter === "all" && dueFilter === "any" && projectFilter === "all"
+    ? "all"
+    : null;
+
+  const projectActive = showComposer ? null : projectFilter;
+
+  return {
+    filteredTodos: filtered,
+    titleLabel,
+    navActive,
+    projectActive,
+  };
+}
+
+export default useTodos;
