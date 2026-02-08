@@ -34,3 +34,38 @@ const baseTodos = [
 
 describe('useTodos', () => {
   beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-02-12T12:00:00Z'))
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('filters by due date', () => {
+    const { result, rerender } = renderHook((props) => useTodos(props), {
+      initialProps: {
+        todos: baseTodos,
+        filter: 'all',
+        projectFilter: 'all',
+        tagFilter: 'all',
+        priorityFilter: 'all',
+        dueFilter: 'today',
+        search: '',
+        showComposer: false,
+      },
+    })
+
+    expect(result.current.filteredTodos).toHaveLength(1)
+    expect(result.current.filteredTodos[0].id).toBe(1)
+
+    rerender({
+      todos: baseTodos,
+      filter: 'all',
+      projectFilter: 'all',
+      tagFilter: 'all',
+      priorityFilter: 'all',
+      dueFilter: 'overdue',
+      search: '',
+      showComposer: false,
+    })
