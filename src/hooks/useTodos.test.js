@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+﻿import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import useTodos from './useTodos.js'
 
@@ -69,3 +69,39 @@ describe('useTodos', () => {
       search: '',
       showComposer: false,
     })
+
+    expect(result.current.filteredTodos).toHaveLength(1)
+    expect(result.current.filteredTodos[0].id).toBe(2)
+
+    rerender({
+      todos: baseTodos,
+      filter: 'all',
+      projectFilter: 'all',
+      tagFilter: 'all',
+      priorityFilter: 'all',
+      dueFilter: 'upcoming',
+      search: '',
+      showComposer: false,
+    })
+
+    expect(result.current.filteredTodos).toHaveLength(1)
+    expect(result.current.filteredTodos[0].id).toBe(3)
+  })
+
+  it('returns a title label based on filters', () => {
+    const { result } = renderHook(() =>
+      useTodos({
+        todos: baseTodos,
+        filter: 'all',
+        projectFilter: 'Work',
+        tagFilter: 'all',
+        priorityFilter: 'all',
+        dueFilter: 'any',
+        search: '',
+        showComposer: false,
+      })
+    )
+
+    expect(result.current.titleLabel).toBe('Work')
+  })
+})
