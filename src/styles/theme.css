@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --ink: #1a1d20;
+  --muted: #66707a;
+  --line: #e4e1db;
+  --accent: #2f6f64;
+  --accent-strong: #23564d;
+  --danger: #b23b2a;
+  --chip: #f1efe9;
+  --shadow: 0 16px 40px rgba(26, 29, 32, 0.08);
+}
+
+[data-theme="noir"] {
+  --bg: #0f1114;
+  --surface: #15181d;
+  --ink: #f2f4f6;
+  --muted: #a7b0b8;
+  --line: #2a2f36;
+  --accent: #7fd3c4;
+  --accent-strong: #5bbba9;
+  --danger: #ef6a5a;
+  --chip: #1c2128;
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="ocean"] {
+  --bg: #eef4f7;
+  --surface: #fbfdff;
+  --ink: #10222c;
+  --muted: #5c6b75;
+  --line: #d7e3ea;
+  --accent: #2a6ea8;
+  --accent-strong: #1f557f;
+  --danger: #c84a3e;
+  --chip: #e6f0f6;
+  --shadow: 0 16px 40px rgba(16, 34, 44, 0.12);
+}
+
+[data-theme="linen"] {
+  --bg: #f7f6f3;
+  --surface: #ffffff;
+  --ink: #1a1d20;
+  --muted: #66707a;
+  --line: #e4e1db;
+  --accent: #2f6f64;
+  --accent-strong: #23564d;
+  --danger: #b23b2a;
+  --chip: #f1efe9;
+  --shadow: 0 16px 40px rgba(26, 29, 32, 0.08);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}

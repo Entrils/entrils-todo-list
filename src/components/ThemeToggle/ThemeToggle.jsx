@@ -1,10 +1,9 @@
-function ThemeToggle({ theme, setTheme }) {
+﻿import styles from "./ThemeToggle.module.css";
+
+function ThemeToggle({ label, onNextTheme }) {
   return (
-    <button
-      className="theme-toggle"
-      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-    >
-      {theme === "light" ? "🌙 Тёмная" : "☀️ Светлая"}
+    <button className={styles.button} onClick={onNextTheme}>
+      Тема: {label}
     </button>
   );
 }

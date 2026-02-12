@@ -1,0 +1,142 @@
+.item {
+  display: grid;
+  gap: 10px;
+  background: var(--surface);
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+
+.dueOverdue {
+  border-color: color-mix(in srgb, var(--danger) 50%, var(--line));
+  background: color-mix(in srgb, var(--danger) 6%, var(--surface));
+}
+
+.dueToday {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface));
+}
+
+.dueUpcoming {
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--line));
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contentText {
+  flex: 1;
+  word-break: break-word;
+}
+
+.checkbox {
+  font-size: 1.1rem;
+}
+
+.editInput {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badgePriorityHigh {
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 40%, var(--line));
+}
+
+.badgePriorityMedium {
+  color: var(--accent-strong);
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+}
+
+.badgePriorityLow {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 20%, var(--line));
+}
+
+.badgeTag {
+  background: transparent;
+}
+
+.badgeDue {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+  color: var(--accent-strong);
+}
+
+.badgeDueOverdue {
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+  color: var(--danger);
+}
+
+.badgeOverdue {
+  background: color-mix(in srgb, var(--danger) 12%, var(--surface));
+  color: var(--danger);
+  border-color: color-mix(in srgb, var(--danger) 40%, var(--line));
+}
+
+.timestamp {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.button {
+  flex: 1;
+  min-width: 120px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  background: transparent;
+  color: var(--ink);
+}
+
+.buttonPrimary {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.buttonDanger {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.completed {
+  opacity: 0.65;
+}
+
+.completedText {
+  text-decoration: line-through;
+  color: var(--muted);
+}

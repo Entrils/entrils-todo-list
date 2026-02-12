@@ -1,0 +1,89 @@
+.shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.app {
+  background: var(--surface);
+  padding: 32px 40px 40px;
+  min-height: 100vh;
+}
+
+.dragFocus {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.composer {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  background: color-mix(in srgb, var(--surface) 96%, var(--chip));
+  margin: 18px 0 24px;
+}
+
+.composerTitle {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.todoList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.emptyState {
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px dashed var(--line);
+  background: transparent;
+  text-align: center;
+  color: var(--muted);
+}
+
+.emptyTitle {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.fadeEnter {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.fadeEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.fadeExit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fadeExitActive {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .app {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 20px;
+  }
+}
