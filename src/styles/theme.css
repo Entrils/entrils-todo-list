@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Sora:wght@400;500;600;700&display=swap");
 
 :root {
   --bg: #e9eef3;
@@ -64,4 +64,38 @@
   --mesh-a: rgba(58, 99, 163, 0.32);
   --mesh-b: rgba(71, 104, 160, 0.28);
   --mesh-c: rgba(46, 77, 126, 0.24);
+}
+
+[data-theme="ocean"] {
+  --bg: #eaf2fa;
+  --surface: #f8fcff;
+  --board-muted: #deebf8;
+  --ink: #10253d;
+  --muted: #63788f;
+  --line: #c2d4e8;
+  --accent: #1f80c9;
+  --accent-strong: #1b6098;
+  --danger: #d45959;
+  --sidebar-start: #95bfdc;
+  --sidebar-end: #7faed2;
+  --teal-soft: #87b7e5;
+  --violet-soft: #b8c7f3;
+  --shadow-lg: 0 24px 56px rgba(16, 37, 61, 0.24);
+  --glass-surface: rgba(248, 252, 255, 0.9);
+  --glass-surface-soft: rgba(223, 237, 250, 0.72);
+  --mesh-a: rgba(105, 177, 235, 0.52);
+  --mesh-b: rgba(144, 176, 244, 0.44);
+  --mesh-c: rgba(102, 205, 213, 0.34);
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+  font-family: "Sora", "Segoe UI", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
 }
