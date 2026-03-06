@@ -23,3 +23,29 @@ const normalizeImportedTodos = (items) => {
     const completed = Boolean(item.completed);
     const stage = normalizeStage(item.stage, completed);
     const order = Number.isFinite(item.order) ? item.order : index + 1;
+
+    return {
+      id: item.id ?? Date.now() + index,
+      text: String(item.text || "").trim() || "Задача",
+      completed: stage === "done",
+      createdAt: item.createdAt || new Date().toISOString(),
+      project: item.project || "Inbox",
+      tags: Array.isArray(item.tags) ? item.tags : [],
+      priority: item.priority || "medium",
+      dueDate: item.dueDate || "",
+      stage,
+      order,
+    };
+  });
+};
+
+const makeExportPayload = ({ todos, projects, tags, theme }) => ({
+  version: 2,
+  todos,
+  projects,
+  tags,
+  theme,
+});
+
+const parseImportPayload = (data, themes, fallbackTheme) => {
+  if (!data || typeof data !== "object") return null;
