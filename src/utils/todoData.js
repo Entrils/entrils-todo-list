@@ -1,4 +1,4 @@
-const BOARD_STAGES = ["todo", "in_progress", "done"];
+﻿const BOARD_STAGES = ["todo", "in_progress", "done"];
 
 const unique = (items) => Array.from(new Set(items));
 
@@ -49,3 +49,29 @@ const makeExportPayload = ({ todos, projects, tags, theme }) => ({
 
 const parseImportPayload = (data, themes, fallbackTheme) => {
   if (!data || typeof data !== "object") return null;
+
+  const importedTodos = normalizeImportedTodos(data.todos || []);
+  const importedProjects = unique(["Inbox", ...(data.projects || [])]);
+  const importedTags = unique(data.tags || []);
+  const importedTheme = themes.some((item) => item.id === data.theme)
+    ? data.theme
+    : fallbackTheme;
+
+  return {
+    todos: importedTodos,
+    projects: importedProjects,
+    tags: importedTags,
+    theme: importedTheme,
+  };
+};
+
+export {
+  BOARD_STAGES,
+  unique,
+  normalizeTags,
+  normalizeStage,
+  normalizeImportedTodos,
+  makeExportPayload,
+  parseImportPayload,
+};
+
